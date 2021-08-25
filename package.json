@@ -1,0 +1,36 @@
+{
+  "name": "codewars",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "jest --passWithNoTests --verbose --silent=false",
+    "lint": "eslint --fix .",
+    "prettier": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "author": "Alexander Rzhanitsyn",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.1",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "*.{html,css,less,ejs,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
