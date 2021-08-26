@@ -45,7 +45,7 @@ W..`
 });
 
 it('Performance tests', () => {
-  const [sizeX, sizeY] = [50, 50];
+  const [sizeX, sizeY] = [100, 100];
   const maze = Array(sizeY)
     .fill(null)
     .map(() => '.'.repeat(sizeX))
@@ -54,5 +54,5 @@ it('Performance tests', () => {
   const [ms, returnValue] = getTimeExecution(() => pathFinder(maze), true);
 
   expect(returnValue).toBeLessThanOrEqual(sizeX + sizeY - 2);
-  expect(ms).toBeLessThanOrEqual(1200);
+  expect(ms).toBeLessThanOrEqual(1000);
 });

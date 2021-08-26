@@ -12,35 +12,45 @@
  */
 const pathFinder = (maze) => {
   const mazeArr = maze.split('\n').map((line) => line.split(''));
+  const xMax = mazeArr.length;
+  const yMax = mazeArr[0].length;
 
-  const isCellPossibleToStep = (cell) => cell === '.';
-  // const isFinish = (x, y) => x === mazeArr.length - 1 && y === mazeArr[x].length - 1;
+  const FREE_CELL_VALUE = '.';
 
-  const getCellsAround = (x, y) => [
-    [x + 1, y],
-    [x - 1, y],
-    [x, y + 1],
-    [x, y - 1],
+  const cellsAroundCoordsDelta = [
+    { x: 1, y: 0 },
+    { x: -1, y: 0 },
+    { x: 0, y: 1 },
+    { x: 0, y: -1 },
   ];
-  // const getPossibleStep = (x, y) =>
-  //   getCellsAround(x, y).filter(([nextX, nextY]) => isCellPossibleToStep(nextX, nextY));
+  const cellsAroundCount = cellsAroundCoordsDelta.length;
+
+  const isCellExist = (nextX, nextY) => nextX >= 0 && nextX < xMax && nextY >= 0 && nextY < yMax;
 
   const [startX, startY] = [0, 0];
-  const queueForStep = [[startX, startY, 0]];
+  const startCell = { x: startX, y: startY, count: 0 };
+  const queueNextCells = [startCell];
 
-  while (queueForStep.length) {
-    const [x, y, count] = queueForStep.pop();
+  while (queueNextCells.length) {
+    const { x, y, count } = queueNextCells.pop();
     mazeArr[x][y] = count;
 
-    for (const [nextX, nextY] of getCellsAround(x, y)) {
-      const nextCell = (mazeArr[nextX] || [])[nextY];
+    for (let index = 0; index < cellsAroundCount; index++) {
+      const nextX = x + cellsAroundCoordsDelta[index].x;
+      const nextY = y + cellsAroundCoordsDelta[index].y;
 
-      if (isCellPossibleToStep(nextCell) || (Number.isInteger(nextCell) && nextCell > count + 1)) {
-        queueForStep.push([nextX, nextY, count + 1]);
+      if (isCellExist(nextX, nextY)) {
+        const nextCell = mazeArr[nextX][nextY];
+
+        if (nextCell === FREE_CELL_VALUE || nextCell > count + 1) {
+          queueNextCells.push({ x: nextX, y: nextY, count: count + 1 });
+        }
       }
     }
   }
-  const last = mazeArr[mazeArr.length - 1][mazeArr.length - 1];
+
+  const last = mazeArr[xMax - 1][yMax - 1];
+
   return Number.isInteger(last) ? last : false;
 };
 
