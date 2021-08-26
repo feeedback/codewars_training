@@ -31,7 +31,7 @@ module.exports = {
         ignoreDefaultValues: true,
         ignoreArrayIndexes: true,
         detectObjects: true,
-        ignore: [0, 1, 2, 3],
+        ignore: [-1, 0, 1, 2, 3],
       },
     ],
     'complexity': ['error', { max: 10 }],
