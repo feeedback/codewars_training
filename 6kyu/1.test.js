@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { expect } from '@jest/globals';
 
 import maxSum from './1.js';

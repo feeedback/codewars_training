@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 module.exports = {
   root: true,
   env: {
@@ -15,6 +16,7 @@ module.exports = {
   },
   parser: '@babel/eslint-parser',
   rules: {
+    'prettier/prettier': ['error', { endOfLine: 'auto', printWidth: 100 }],
     'import/extensions': 0,
     'no-underscore-dangle': [2, { allow: ['__filename', '__dirname'] }],
     'no-restricted-syntax': ['off', 'ForOfStatement'],
@@ -22,6 +24,16 @@ module.exports = {
     'dot-notation': ['off'],
     'no-console': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
-    'prettier/prettier': ['error', { endOfLine: 'auto', printWidth: 100 }],
+    'no-magic-numbers': [
+      'error',
+      {
+        enforceConst: true,
+        ignoreDefaultValues: true,
+        ignoreArrayIndexes: true,
+        detectObjects: true,
+        ignore: [0, 1, 2, 3],
+      },
+    ],
+    'complexity': ['error', { max: 10 }],
   },
 };

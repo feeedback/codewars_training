@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { randomInt } from 'crypto';
 import { expect } from '@jest/globals';
 import { getTimeExecution } from '../utils/test_utils.js';
@@ -32,5 +33,5 @@ it('Performance Tests', () => {
     return [start, start + randomInt(SIZE - start)];
   });
 
-  expect(getTimeExecution(() => maxSum(arr, range))).toBeLessThanOrEqual(20);
+  expect(getTimeExecution(() => maxSum(arr, range))).toBeLessThanOrEqual(30);
 });

@@ -1,17 +1,37 @@
 import { performance } from 'perf_hooks';
 
-export const getTimeExecutionAsync = async (fn) => {
+/**
+ * @param {function} fn
+ * @param {boolean} [isReturnValue=false]
+ * @return {Promise< number | [number, any] >} ms execution |  [ms execution, returnValue]
+ */
+export const getTimeExecutionAsync = async (fn, isReturnValue = false) => {
   const startTime = performance.now();
 
-  await fn();
+  if (!isReturnValue) {
+    await fn();
+    return performance.now() - startTime;
+  }
 
-  return performance.now() - startTime;
+  const returnValue = await fn();
+  return [performance.now() - startTime, returnValue];
 };
-
-export const getTimeExecution = (fn) => {
+/**
+ * @param {function} fn
+ * @param {boolean} [isReturnValue=false]
+ * @return { number | [number, any] } ms execution |  [ms execution, returnValue]
+ */
+export const getTimeExecution = (fn, isReturnValue = false) => {
   const startTime = performance.now();
 
-  fn();
+  // eslint-disable-next-line no-magic-numbers
+  const getDuration = () => Math.round((performance.now() - startTime) * 1e3) / 1e3;
 
-  return performance.now() - startTime;
+  if (!isReturnValue) {
+    fn();
+    return getDuration();
+  }
+
+  const returnValue = fn();
+  return [getDuration(), returnValue];
 };
