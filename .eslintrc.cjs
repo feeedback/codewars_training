@@ -34,6 +34,7 @@ module.exports = {
         ignore: [-1, 0, 1, 2, 3],
       },
     ],
-    'complexity': ['error', { max: 20 }],
+    'complexity': ['error', { max: 14 }],
+    'no-continue': 0,
   },
 };

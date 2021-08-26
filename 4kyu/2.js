@@ -12,10 +12,9 @@
  */
 const pathFinder = (maze) => {
   const mazeArr = maze.split('\n').map((line) => line.split(''));
-  const xMax = mazeArr.length;
-  const yMax = mazeArr[0].length;
-
-  const FREE_CELL_VALUE = '.';
+  const xMax = mazeArr.length - 1;
+  const yMax = mazeArr[0].length - 1;
+  const isCellExist = (nextX, nextY) => nextX >= 0 && nextX <= xMax && nextY >= 0 && nextY <= yMax;
 
   const cellsAroundCoordsDelta = [
     { x: 1, y: 0 },
@@ -24,16 +23,27 @@ const pathFinder = (maze) => {
     { x: 0, y: -1 },
   ];
   const cellsAroundCount = cellsAroundCoordsDelta.length;
-
-  const isCellExist = (nextX, nextY) => nextX >= 0 && nextX < xMax && nextY >= 0 && nextY < yMax;
+  const FREE_CELL_VALUE = '.';
 
   const [startX, startY] = [0, 0];
   const startCell = { x: startX, y: startY, count: 0 };
   const queueNextCells = [startCell];
+  const visitedCells = new Set();
 
   while (queueNextCells.length) {
-    const { x, y, count } = queueNextCells.pop();
+    const { x, y, count } = queueNextCells.shift();
+    const visitedIndex = x * (xMax + 1) + y;
+
+    if (visitedCells.has(visitedIndex)) {
+      continue;
+    }
+    visitedCells.add(visitedIndex);
+
     mazeArr[x][y] = count;
+
+    if (x === xMax && y === yMax) {
+      return count;
+    }
 
     for (let index = 0; index < cellsAroundCount; index++) {
       const nextX = x + cellsAroundCoordsDelta[index].x;
@@ -42,16 +52,14 @@ const pathFinder = (maze) => {
       if (isCellExist(nextX, nextY)) {
         const nextCell = mazeArr[nextX][nextY];
 
-        if (nextCell === FREE_CELL_VALUE || nextCell > count + 1) {
+        if (nextCell === FREE_CELL_VALUE) {
           queueNextCells.push({ x: nextX, y: nextY, count: count + 1 });
         }
       }
     }
   }
 
-  const last = mazeArr[xMax - 1][yMax - 1];
-
-  return Number.isInteger(last) ? last : false;
+  return false;
 };
 
 export default pathFinder;

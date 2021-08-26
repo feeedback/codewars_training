@@ -21,9 +21,9 @@ it('Functionally Tests', () => {
 });
 
 it('Performance Tests', () => {
-  const MAX_NUM = 1000;
+  const MAX_NUM = 100;
   const SIZE = 100_000;
-  const SIZE_RANGE = 100_000;
+  const SIZE_RANGE = 10_000;
 
   const arr = new Array(SIZE).fill(null).map(() => randomInt(MAX_NUM));
 
