@@ -2,7 +2,7 @@
 import { expect } from '@jest/globals';
 import { getTimeExecution } from '../utils/test_utils.js';
 
-import pathFinder from './2.js';
+import pathFinder from './path_finder1.js';
 
 it('Basic tests', () => {
   expect(
@@ -11,7 +11,7 @@ it('Basic tests', () => {
 .W.
 ...`
     )
-  ).toStrictEqual(4);
+  ).toStrictEqual(true);
 
   expect(
     pathFinder(
@@ -30,7 +30,7 @@ W..`
 ......
 ......`
     )
-  ).toStrictEqual(10);
+  ).toStrictEqual(true);
 
   expect(
     pathFinder(
@@ -51,8 +51,5 @@ it('Performance tests', () => {
     .map(() => '.'.repeat(sizeX))
     .join('\n');
 
-  const [ms, returnValue] = getTimeExecution(() => pathFinder(maze), true);
-
-  expect(returnValue).toBeLessThanOrEqual(sizeX + sizeY - 2);
-  expect(ms).toBeLessThanOrEqual(100);
+  expect(getTimeExecution(() => pathFinder(maze))).toBeLessThanOrEqual(200);
 });

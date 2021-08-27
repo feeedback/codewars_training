@@ -3,7 +3,7 @@ import { randomInt } from 'crypto';
 import { expect } from '@jest/globals';
 import { getTimeExecution } from '../utils/test_utils.js';
 
-import maxSum from './1.js';
+import maxSum from './max_sum_ranges2.js';
 
 it('Functionally Tests', () => {
   expect(
