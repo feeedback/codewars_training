@@ -1,18 +1,8 @@
-const getAngle = (angle) => (360 + angle) % 360;
-
 const mapSymbolToAngleFn = {
-  r: (angle) => getAngle(angle + 90),
-  l: (angle) => getAngle(angle - 90),
-  R: (angle) => getAngle(angle + 180),
-  L: (angle) => getAngle(angle - 180),
-};
-const symbolsDirection = new Set(Object.keys(mapSymbolToAngleFn));
-
-const mapAngleToGetCoordsFn = {
-  0: (x, y, step) => [x + step * -1, y],
-  90: (x, y, step) => [x, y + step],
-  180: (x, y, step) => [x + step, y],
-  270: (x, y, step) => [x, y + step * -1],
+  r: (radAngle) => radAngle + Math.PI / 2,
+  l: (radAngle) => radAngle - Math.PI / 2,
+  R: (radAngle) => radAngle + Math.PI,
+  L: (radAngle) => radAngle - Math.PI,
 };
 
 /**
@@ -25,17 +15,20 @@ const mapAngleToGetCoordsFn = {
  * @return { [number, number ] } x, y coords
  */
 function IamHere(path) {
-  let { x = 0, y = 0, angle = 0 } = IamHere.lastPosition || {};
-  const commands = path.match(/[A-z]|\d+/g) || [];
+  const commands = path.match(/\d+|./g) || [];
+  let { x = 0, y = 0, radAngle = 0 } = IamHere.lastPosition || {};
 
   for (const command of commands) {
-    if (symbolsDirection.has(command)) {
-      angle = mapSymbolToAngleFn[command](angle);
+    const step = Number(command);
+
+    if (!Number.isInteger(step)) {
+      radAngle = mapSymbolToAngleFn[command](radAngle);
     } else {
-      [x, y] = mapAngleToGetCoordsFn[angle](x, y, Number(command));
+      x -= Math.round(Math.cos(radAngle)) * step;
+      y += Math.round(Math.sin(radAngle)) * step;
     }
   }
-  IamHere.lastPosition = { x, y, angle }; // uncomment this line for serial test in codewars
+  IamHere.lastPosition = { x, y, radAngle };
   return [x, y];
 }
 export default IamHere;
