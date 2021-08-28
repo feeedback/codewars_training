@@ -4,11 +4,11 @@
  * pathFinder(
  * `.W.
  * .W.
- * ...`); // return true
+ * ...`); // return 4
  * ```
  *
  * @param { String } maze
- * @return { Boolean } is can you reach the last element?
+ * @return { Boolean } min number of steps to exit position [N-1, N-1]
  */
 const pathFinder = (maze) => {
   const mazeArr = maze.split('\n').map((line) => line.split(''));

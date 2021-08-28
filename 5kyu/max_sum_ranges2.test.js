@@ -33,5 +33,5 @@ it('Performance Tests', () => {
     return [start, start + randomInt(SIZE - start)];
   });
 
-  expect(getTimeExecution(() => maxSum(arr, range))).toBeLessThanOrEqual(30);
+  expect(getTimeExecution(() => maxSum(arr, range))).toBeLessThanOrEqual(40);
 });

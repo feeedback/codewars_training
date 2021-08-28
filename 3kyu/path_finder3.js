@@ -2,13 +2,13 @@
  * Path Finder #3: the Alpinist {@link https://www.codewars.com/kata/576986639772456f6f00030c}
  * ```
  * pathFinder(
- * `.W.
- * .W.
- * ...`); // return true
+ * `010
+ * 010
+ * 010`); // return 2
  * ```
  *
  * @param { String } area
- * @return { Boolean } is can you reach the last element?
+ * @return { number } min number of climb rounds to target location [N-1, N-1]
  */
 const pathFinder = (area) => {
   const areaArr = area.split('\n').map((line) => line.split(''));
@@ -23,43 +23,47 @@ const pathFinder = (area) => {
     { x: 0, y: -1 },
   ];
   const cellsAroundCount = cellsAroundCoordsDelta.length;
-  const FREE_CELL_VALUE = '.';
 
   const [startX, startY] = [0, 0];
   const startCell = { x: startX, y: startY, count: 0 };
+
+  const weights = new Array(areaArr.length).fill(0).map(() => []);
+  weights[startX][startY] = 0;
   const queueNextCells = [startCell];
-  const visitedCells = new Set();
 
   while (queueNextCells.length) {
-    const { x, y, count } = queueNextCells.shift();
-    const visitedIndex = x * (xMax + 1) + y;
-
-    if (visitedCells.has(visitedIndex)) {
-      continue;
-    }
-    visitedCells.add(visitedIndex);
-
-    areaArr[x][y] = count;
-
-    if (x === xMax && y === yMax) {
-      return count;
-    }
+    const { x, y } = queueNextCells.shift();
 
     for (let index = 0; index < cellsAroundCount; index++) {
       const nextX = x + cellsAroundCoordsDelta[index].x;
       const nextY = y + cellsAroundCoordsDelta[index].y;
 
-      if (isCellExist(nextX, nextY)) {
-        const nextCell = areaArr[nextX][nextY];
+      if (!isCellExist(nextX, nextY)) {
+        continue;
+      }
 
-        if (nextCell === FREE_CELL_VALUE) {
-          queueNextCells.push({ x: nextX, y: nextY, count: count + 1 });
-        }
+      const currentValue = areaArr[nextX][nextY];
+      if (currentValue === undefined) {
+        continue;
+      }
+      const prevValue = areaArr[x][y];
+      const moveWeight = Math.abs(currentValue - prevValue);
+
+      const currentCellWeightSum = weights[nextX][nextY];
+      const prevCellWeightSum = weights[x][y];
+
+      if (
+        currentCellWeightSum === undefined ||
+        currentCellWeightSum > prevCellWeightSum + moveWeight
+      ) {
+        weights[nextX][nextY] = prevCellWeightSum + moveWeight;
+
+        queueNextCells.push({ x: nextX, y: nextY });
       }
     }
   }
 
-  return false;
+  return weights[xMax][yMax];
 };
 
 export default pathFinder;
