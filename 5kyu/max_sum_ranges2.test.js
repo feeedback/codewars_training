@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import { randomInt } from 'crypto';
 import { expect } from '@jest/globals';
 import { getTimeExecution } from '../utils/test_utils.js';

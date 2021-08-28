@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 module.exports = {
   root: true,
   env: {
@@ -24,16 +23,16 @@ module.exports = {
     'dot-notation': ['off'],
     'no-console': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
-    'no-magic-numbers': [
-      'error',
-      {
-        enforceConst: true,
-        ignoreDefaultValues: true,
-        ignoreArrayIndexes: true,
-        detectObjects: true,
-        ignore: [-1, 0, 1, 2, 3],
-      },
-    ],
+    // 'no-magic-numbers': [
+    //   'error',
+    //   {
+    //     enforceConst: true,
+    //     ignoreDefaultValues: true,
+    //     ignoreArrayIndexes: true,
+    //     detectObjects: true,
+    //     ignore: [-1, 0, 1, 2, 3],
+    //   },
+    // ],
     'complexity': ['error', { max: 14 }],
     'no-continue': 0,
   },
