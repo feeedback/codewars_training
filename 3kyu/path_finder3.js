@@ -14,56 +14,39 @@ const pathFinder = (area) => {
   const areaArr = area.split('\n').map((line) => line.split(''));
   const xMax = areaArr.length - 1;
   const yMax = areaArr[0].length - 1;
-  const isCellExist = (nextX, nextY) => nextX >= 0 && nextX <= xMax && nextY >= 0 && nextY <= yMax;
-
-  const cellsAroundCoordsDelta = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 },
+  const isCellExist = ({ x, y }) => x >= 0 && x <= xMax && y >= 0 && y <= yMax;
+  const getCellsAround = (x, y) => [
+    { x: x + 1, y },
+    { x: x - 1, y },
+    { x, y: y + 1 },
+    { x, y: y - 1 },
   ];
-  const cellsAroundCount = cellsAroundCoordsDelta.length;
+  const weights = Array.from({ length: xMax + 1 }).map(() => Array(yMax + 1).fill(Infinity));
 
-  const [startX, startY] = [0, 0];
-  const startCell = { x: startX, y: startY, count: 0 };
+  const START_CELL = { x: 0, y: 0 };
+  const FINISH_CELL = { x: xMax, y: yMax };
 
-  const weights = new Array(areaArr.length).fill(0).map(() => []);
-  weights[startX][startY] = 0;
-  const queueNextCells = [startCell];
+  weights[START_CELL.x][START_CELL.y] = 0;
+  const queueNextCells = [START_CELL];
 
   while (queueNextCells.length) {
     const { x, y } = queueNextCells.shift();
 
-    for (let index = 0; index < cellsAroundCount; index++) {
-      const nextX = x + cellsAroundCoordsDelta[index].x;
-      const nextY = y + cellsAroundCoordsDelta[index].y;
+    for (const { x: nextX, y: nextY } of getCellsAround(x, y).filter(isCellExist)) {
+      const moveWeight = Math.abs(areaArr[nextX][nextY] - areaArr[x][y]);
 
-      if (!isCellExist(nextX, nextY)) {
-        continue;
-      }
+      const cellPathWeight = weights[nextX][nextY];
+      const prevCellPathWeight = weights[x][y];
 
-      const currentValue = areaArr[nextX][nextY];
-      if (currentValue === undefined) {
-        continue;
-      }
-      const prevValue = areaArr[x][y];
-      const moveWeight = Math.abs(currentValue - prevValue);
-
-      const currentCellWeightSum = weights[nextX][nextY];
-      const prevCellWeightSum = weights[x][y];
-
-      if (
-        currentCellWeightSum === undefined ||
-        currentCellWeightSum > prevCellWeightSum + moveWeight
-      ) {
-        weights[nextX][nextY] = prevCellWeightSum + moveWeight;
+      if (cellPathWeight > prevCellPathWeight + moveWeight) {
+        weights[nextX][nextY] = prevCellPathWeight + moveWeight;
 
         queueNextCells.push({ x: nextX, y: nextY });
       }
     }
   }
 
-  return weights[xMax][yMax];
+  return weights[FINISH_CELL.x][FINISH_CELL.y];
 };
 
 export default pathFinder;

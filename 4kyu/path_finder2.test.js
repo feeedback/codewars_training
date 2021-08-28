@@ -54,5 +54,5 @@ it('Performance tests', () => {
   const [ms, returnValue] = getTimeExecution(() => pathFinder(maze), true);
 
   expect(returnValue).toBeLessThanOrEqual(sizeX + sizeY - 2);
-  expect(ms).toBeLessThanOrEqual(100);
+  expect(ms).toBeLessThanOrEqual(110);
 });
