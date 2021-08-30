@@ -22,19 +22,30 @@ const sumIntervals = (intervals) => {
   for (let i = 0; i < intervals.length; i++) {
     const [startA, finishA] = intervals[i];
     sum += finishA - startA;
+
+    console.log({ i, sum });
     for (let j = i + 1; j < intervals.length; j++) {
-      console.log({ sum });
       const [startB, finishB] = intervals[j];
+
       if (startB === startA && finishB === finishA) {
         sum -= finishB - startB;
       } else if (finishA > startB) {
+        //
         if (finishA >= finishB) {
-          console.log({ startA, finishA, startB, finishB });
-          sum -= finishB - startB;
+          console.log({ i, j, sum });
+          if (startA >= startB) {
+            if (startA <= finishB) {
+              sum -= finishB - startA;
+            }
+          } else {
+            sum -= finishB - startB;
+          }
         } else if (finishB > finishA) {
-          sum -= finishA - startB;
+          const diff = finishA - startB;
+          sum -= diff;
         }
       }
+      console.log({ i, j, sum });
     }
   }
   return sum;
