@@ -19,6 +19,13 @@ it('should return the correct sum for overlapping intervals', () => {
       [1, 5],
     ])
   ).toStrictEqual(4);
+  expect(
+    sumIntervals([
+      [1, 5],
+      [1, 5],
+      [1, 5],
+    ])
+  ).toStrictEqual(4);
 
   expect(
     sumIntervals([
