@@ -5,7 +5,10 @@
  * @param { Array< [ number ] >} intervals
  * @return { number } sum
  */
-const sumIntervals = (intervals) => {
+// eslint-disable-next-line no-unused-vars
+const sumIntervalsOld = (intervals) => {
+  intervals = intervals.sort(([a, A], [b, B]) => a - b || A - B);
+
   let sum = 0;
 
   for (let i = 0; i < intervals.length; i++) {
@@ -43,10 +46,22 @@ const sumIntervals = (intervals) => {
   return sum;
 };
 
-// https://www.codewars.com/kata/52b7ed099cdc285c300001cd/train/javascript
+const sumIntervals = (intervals) => {
+  let sum = 0;
+  let max = -Infinity;
+  intervals = intervals.sort(([a, A], [b, B]) => a - b || A - B);
 
-sumIntervals([
-  [1, 5],
-  [4, 7],
-]);
+  for (const [start, finish] of intervals) {
+    if (start > max) {
+      max = start;
+    }
+    if (finish > max) {
+      sum += finish - max;
+      max = finish;
+    }
+  }
+
+  return sum;
+};
+
 export default sumIntervals;
