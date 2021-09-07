@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { getTimeExecution } from '../utils/test_utils.js';
+// import { getTimeExecution } from '../utils/test_utils.js';
 
 import pathFinder from './path_finder1.js';
 
@@ -43,12 +43,12 @@ W..`
   ).toStrictEqual(false);
 });
 
-it('Performance tests', () => {
-  const [sizeX, sizeY] = [200, 200];
-  const maze = Array(sizeY)
-    .fill(null)
-    .map(() => '.'.repeat(sizeX))
-    .join('\n');
+// it('Performance tests', () => {
+//   const [sizeX, sizeY] = [200, 200];
+//   const maze = Array(sizeY)
+//     .fill(null)
+//     .map(() => '.'.repeat(sizeX))
+//     .join('\n');
 
-  expect(getTimeExecution(() => pathFinder(maze))).toBeLessThanOrEqual(200);
-});
+//   expect(getTimeExecution(() => pathFinder(maze))).toBeLessThanOrEqual(200);
+// });
